@@ -11,7 +11,6 @@ from forms import AddPetForm, EditPetForm
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = "secret"
-
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
     "DATABASE_URL", "postgresql:///adopt")
 
@@ -20,7 +19,7 @@ connect_db(app)
 # Having the Debug Toolbar show redirects explicitly is often useful;
 # however, if you want to turn it off, you can uncomment this line:
 #
-# app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 toolbar = DebugToolbarExtension(app)
 
@@ -42,11 +41,12 @@ def add_pet_form():
     if form.validate_on_submit():
         name = form.name.data
         species = form.species.data
-        photo_url = form.photo_url.data or ''
+        photo_url = form.photo_url.data
         age = form.age.data
-        notes = form.notes.data or None
+        notes = form.notes.data
 
-        pet = Pet(name=name,
+        pet = Pet(
+            name=name,
             species=species,
             photo_url=photo_url,
             age=age,
@@ -68,8 +68,8 @@ def show_pet_info_and_edit_form(pet_id):
     form = EditPetForm(obj=pet)
 
     if form.validate_on_submit():
-        photo_url = form.photo_url.data or ''
-        notes = form.notes.data or None
+        photo_url = form.photo_url.data
+        notes = form.notes.data
         available = form.available.data
 
         pet.photo_url = photo_url
