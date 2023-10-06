@@ -3,8 +3,10 @@
 {% block title %}Pet List{% endblock %}
 
 {% block content %}
+<h1>Pets</h1>
   {% for pet in pets %}
     <div>
+      <a href="/{{ pet.id }}">
       <img src="{{ pet.image_url }}" alt="Photo of {{ pet.name }}">
 
       <p>{{ pet.name }}
@@ -14,7 +16,8 @@
           <b>is not available!</b>
         {% endif %}
       </p>
-
+    </a>
     </div>
   {% endfor %}
-{% endcontent %}
+  <a href="/add">Add pet</a>
+{% endblock %}

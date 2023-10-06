@@ -1,6 +1,7 @@
 """Models for adopt app."""
 
-from flask_sqlalchemy import SQLAlchemy, CheckConstraint
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import CheckConstraint
 
 db = SQLAlchemy()
 
@@ -20,7 +21,6 @@ class Pet(db.Model):
     """Model for Pet"""
 
     __tablename__ = "pets"
-    __table_args__= (CheckConstraint(age in ['baby','young','adult','senior']))
 
     id = db.Column(
         db.Integer,
@@ -40,7 +40,6 @@ class Pet(db.Model):
 
     age = db.Column(
         db.Text,
-        db.Chec,
         nullable=False)
 
     notes = db.Column(
@@ -51,4 +50,6 @@ class Pet(db.Model):
         db.Boolean,
         nullable=False,
         default=True)
+
+    __table_args__= dict(CheckConstraint(age in ['baby','young','adult','senior']))
 

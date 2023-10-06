@@ -12,7 +12,9 @@ Species : {{ pet.species }}
 
 <h3>Edit {{ pet.name }}'s info</h3>
 <form method="POST">
-  {% for field in form %}
+  {{ form.hidden_tag() }}
+  {% for field in form
+    if field.widget.input_type != 'hidden' %}
 <p>
   {{ field.label }}
   {{ field }}
