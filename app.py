@@ -28,8 +28,9 @@ def show_pets():
     """Shows a list of pets"""
 
     pets = Pet.query.all()
+    random_pet = Pet.get_random_PetFinder_pet()
 
-    return render_template('pet_list.html', pets=pets)
+    return render_template('pet_list.html', pets=pets, random_pet=random_pet)
 
 
 @app.route('/add', methods=['GET', 'POST'])

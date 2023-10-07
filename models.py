@@ -5,6 +5,7 @@ from sqlalchemy import CheckConstraint
 import requests
 db = SQLAlchemy()
 import os
+from random import sample
 
 
 # this HAS to be imported if not in app.py
@@ -69,13 +70,22 @@ class Pet(db.Model):
     def get_random_PetFinder_pet(cls):
         ''' Requests PetFinder API to get a list of pets,
             then randomly selects one '''
-
+        print("WE MADE IT")
         pets = requests.get('https://api.petfinder.com/v2/animals?limit=100',
-                            headers={"Authorization": f"Bearer {API_TOKEN}"})
+                            headers={"Authorization": f"Bearer {API_TOKEN}"}).json()
+        # print("type", type(pets['animals']))
+        print("Pet", type(pets))
+        random_pet = sample(pets['animals'], 1)
+        age = random_pet[0]['age']
+        name = random_pet[0]['name']
+        species = random_pet[0]['species']
+        try:
+            photo_url = random_pet[0]['photos'][0]
+        except:
+            photo_url = ('https://i.pinimg.com/736x/92/dd/1c/92dd1cd7871f642eaf69d4928d069c78.jpg')
 
-        # age = pets.animals[0].age
-        # name = pets.animals[0].name
-        # species = pets.animals[0].
-        # photo_url =
+        pet = {"age": age,"name": name,"species": species, 'photo_url':photo_url}
+
+        return pet
 
 
